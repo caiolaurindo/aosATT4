@@ -4,33 +4,43 @@ const listarTarefas = async () => {
     return await Tarefas.findAll();
 };
 
-const obterTarefa = async (id) => {
-    return await Tarefas.findById(id);
+const obterTarefa = async (objectId) => {
+    return await Tarefas.findByPk(objectId);
 };
 
-const criarTarefa = async ({ titulo, descricao, status }) => {
-    return await Tarefas.create({ 
-        titulo, 
-        descricao, 
-        status });
+const criarTarefa = async ({ descricao, concluida = false }) => {
+    return await Tarefas.create({
+        descricao,
+        concluida
+    });
 };
 
-const atualizarTarefa = async (id, { titulo, descricao, status }) => {
-    const tarefa = await Tarefas.findById(id);
-    if (!tarefa){
-        throw new Error('Tarefa não encontrada');
+const atualizarTarefa = async (objectId, dados) => {
+    const tarefa = await Tarefas.findByPk(objectId);
+
+    if (!tarefa) {
+        return null;
     }
-    return await tarefa.update({ titulo, descricao, status });
+
+    const { descricao, concluida } = dados;
+
+    return await tarefa.update({
+        ...(descricao !== undefined && { descricao }),
+        ...(concluida !== undefined && { concluida })
+    });
 };
 
-const deletarTarefa = async (id) => {
-    const tarefa = await Tarefas.findById(id);
-    if (!tarefa){
-        throw new Error('Tarefa não encontrada');
+const deletarTarefa = async (objectId) => {
+    const tarefa = await Tarefas.findByPk(objectId);
+
+    if (!tarefa) {
+        return null;
     }
-    return await tarefa.destroy();
-};
 
+    await tarefa.destroy();
+
+    return tarefa;
+};
 
 export default {
     listarTarefas,
@@ -38,4 +48,4 @@ export default {
     criarTarefa,
     atualizarTarefa,
     deletarTarefa
-}
+};
