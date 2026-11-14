@@ -8,7 +8,7 @@ const todasTarefas = async (req, res) => {
 };
 
 const obterTarefa = async (req, res) => {
-    const tarefa = await TarefasService.obterTarefa(req.params.tarefaId);
+    const tarefa = await TarefasService.obterTarefa(req.params.objectId);
 
     if (!tarefa) {
         throw new AppError('Tarefa não encontrada', 404);
@@ -29,7 +29,7 @@ const criarTarefa = async (req, res) => {
 
 const atualizarTarefa = async (req, res) => {
     const tarefa = await TarefasService.atualizarTarefa(
-        req.params.tarefaId,
+        req.params.objectId,
         req.body
     );
 
@@ -41,7 +41,7 @@ const atualizarTarefa = async (req, res) => {
 };
 
 const deletarTarefa = async (req, res) => {
-    const tarefa = await TarefasService.deletarTarefa(req.params.tarefaId);
+    const tarefa = await TarefasService.deletarTarefa(req.params.objectId);
 
     if (!tarefa) {
         throw new AppError('Tarefa não encontrada', 404);
