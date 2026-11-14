@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { TarefasController } from '../controllers';
+import { TarefasController } from '../controllers/index.js';
 
 const router = Router();
 

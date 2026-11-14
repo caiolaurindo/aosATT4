@@ -1,4 +1,4 @@
-import Tarefas from '../models';
+import Tarefas from '../models/index.js';
 
 const listarTarefas = async () => {
     return await Tarefas.findAll();

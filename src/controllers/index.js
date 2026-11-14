@@ -1,1 +1,1 @@
-export {default as TarefasController} from './tarefas';
+export {default as TarefasController} from './tareja.js';

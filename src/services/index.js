@@ -1,1 +1,1 @@
-export { default as TarefasService } from './tarefas';
+export { default as TarefasService } from './tarefas.js';

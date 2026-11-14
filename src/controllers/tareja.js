@@ -1,6 +1,6 @@
 
-import { TarefasService } from '../services';
-import { AppError } from '../utils';
+import { TarefasService } from '../services/index.js';
+import { AppError } from '../utils/index.js';
 
 const todasTarefas = async (req, res) => {
     const tarefas = await TarefasService.listarTarefas();
@@ -8,7 +8,7 @@ const todasTarefas = async (req, res) => {
 };
 
 const obterTarefa = async (req, res) => {
-    const tarefa = await TarefasService.obterTarefa(req.params.objectId);
+    const tarefa = await TarefasService.obterTarefa(req.params.tarefaId);
 
     if (!tarefa) {
         throw new AppError('Tarefa não encontrada', 404);
@@ -29,7 +29,7 @@ const criarTarefa = async (req, res) => {
 
 const atualizarTarefa = async (req, res) => {
     const tarefa = await TarefasService.atualizarTarefa(
-        req.params.objectId,
+        req.params.tarefaId,
         req.body
     );
 
@@ -41,7 +41,7 @@ const atualizarTarefa = async (req, res) => {
 };
 
 const deletarTarefa = async (req, res) => {
-    const tarefa = await TarefasService.deletarTarefa(req.params.objectId);
+    const tarefa = await TarefasService.deletarTarefa(req.params.tarefaId);
 
     if (!tarefa) {
         throw new AppError('Tarefa não encontrada', 404);
@@ -51,7 +51,7 @@ const deletarTarefa = async (req, res) => {
 };
 
 export default {
-    todasTarefas,
+    listarTarefas: todasTarefas,
     obterTarefa,
     criarTarefa,
     atualizarTarefa,
