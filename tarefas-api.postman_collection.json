@@ -1,0 +1,245 @@
+{
+  "info": {
+    "name": "API de Tarefas (aosATT4)",
+    "description": "Coleção do Postman para testar os endpoints da API RESTful de Tarefas publicada na Vercel.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://SEU-PROJETO.vercel.app",
+      "type": "string"
+    },
+    {
+      "key": "objectId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tarefas (CRUD)",
+      "item": [
+        {
+          "name": "Criar Tarefa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status é 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.objectId) {",
+                  "    pm.collectionVariables.set('objectId', jsonData.objectId);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Estudar Node.js, Express e Zod\",\n  \"concluida\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tarefas",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Tarefas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status é 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tarefas",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Tarefa por ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status é 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tarefas/{{objectId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas", "{{objectId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Tarefa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status é 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Estudar Node.js, Express, Zod e NeonDB\",\n  \"concluida\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tarefas/{{objectId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas", "{{objectId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Tarefa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status é 204 No Content', function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tarefas/{{objectId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas", "{{objectId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Casos de Erro (Validação e 404)",
+      "item": [
+        {
+          "name": "Criar Tarefa sem descricao (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"concluida\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tarefas",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Tarefa com UUID inválido (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tarefas/id-invalido",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas", "id-invalido"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Tarefa inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tarefas/00000000-0000-4000-8000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["tarefas", "00000000-0000-4000-8000-000000000000"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
